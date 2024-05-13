@@ -1,1 +1,12 @@
-
+type: trigger
+debug: yes
+name: Honeyguard/ssh_failed_attempts
+description: "Detection of 3 failed connection with a ban of source ip "
+filter: "evt.Meta.log_type == 'cowrie_login_attempt'"
+leakspeed: 10s
+blackhole: 1m
+groupby: "evt.Meta.source_ip"
+labels:
+  service: cowrie
+  type: bruteforce
+  remediation: true
