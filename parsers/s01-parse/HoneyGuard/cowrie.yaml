@@ -1,1 +1,27 @@
-
+onsuccess: next_stage
+filter: "evt.Parsed.program == 'cowrie'"
+name: Honeyguard/ssh_failed_attempts
+debug: true
+description: "Parser log cowrie"
+pattern_syntax:
+  COWRIE_LOGIN_ATTEMPT: '%{TIMESTAMP_ISO8601:timestamp} \[HoneyPotSSHTransport,%{NUMBER},%{IP:source_ip}\] login attempt \[%{DATA:user}/%{DATA:password}\] %{GREEDYDATA:status}'
+nodes:
+  - grok:
+      name: "COWRIE_LOGIN_ATTEMPT"
+      apply_on: message
+      statics:
+        - meta: log_type
+          value: cowrie_login_attempt
+statics:
+    - meta: log_type
+      value: cowrie_login_attempt
+    - meta: service
+      value: cowrie
+    - meta: source_ip
+      expression: evt.Parsed.source_ip
+    - meta: user
+      expression: evt.Parsed.user
+    - meta: password
+      expression: evt.Parsed.password
+    - target: evt.StrTime
+      expression: evt.Parsed.timestamp
