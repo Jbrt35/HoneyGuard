@@ -1,1 +1,13 @@
-
+parsers:
+  - Honeyguard/ssh_failed_attempts
+  - crowdsecurity/dateparse-enrich
+  - crowdsecurity/geoip-enrich
+scenarios:
+  - Honeyguard/ssh_failed_attempts
+description: "parser and detection of ssh bruteforce"
+author: HoneyGuard
+tags:
+  - linux
+  - ssh
+  - brute-force
+  - cowrie
